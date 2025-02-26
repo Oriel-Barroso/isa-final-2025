@@ -1,0 +1,16 @@
+{
+  "generator-jhipster": {
+    "applicationType": "monolith",
+    "baseName": "blog",
+    "buildTool": "maven",
+    "devServerPort": 4200,
+    "entities": ["Blog", "Post", "Tag"],
+    "jhipsterVersion": "8.7.1",
+    "jwtSecretKey": "NTBmNWJlMWQzNDMwY2M3Njg5NzEyYzZiYTgwNDYwZjU5MzU2MTk3OGY3YjNjNmE3ZDk1ZmE3YTI3OGFlYWIxMmUwNzJjNzQyNjk5Yjg5MGEwMDE3OTI1NGY4ZDk2MGMzNmJmMDBjOTI1NDJiYjM4MmY3OWJiMGQxMzNmNmRiOGE=",
+    "languages": ["en"],
+    "lastLiquibaseTimestamp": 1740596144000,
+    "nativeLanguage": "en",
+    "packageName": "com.jhipster.demo.blog",
+    "testFrameworks": ["cypress"]
+  }
+}
