@@ -392,8 +392,8 @@
                         <tag>latest</tag>
                     </tags>
                     <auth>
-                        <username>orielb97</username>
-                        <password>krauser97</password>
+                        <username>${DOCKER_REGISTRY_USER}</username>
+                        <password>${DOCKER_REGISTRY_PWD}</password>
                     </auth>
                 </to>
                 </configuration>
