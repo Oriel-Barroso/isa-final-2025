@@ -3,6 +3,7 @@
     "applicationType": "monolith",
     "baseName": "blog",
     "buildTool": "maven",
+    "creationTimestamp": 1741037937478,
     "devServerPort": 4200,
     "entities": ["Blog", "Post", "Tag"],
     "jhipsterVersion": "8.7.1",

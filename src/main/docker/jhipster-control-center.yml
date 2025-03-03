@@ -45,7 +45,19 @@ services:
       - JHIPSTER_SECURITY_AUTHENTICATION_JWT_BASE64_SECRET=NTBmNWJlMWQzNDMwY2M3Njg5NzEyYzZiYTgwNDYwZjU5MzU2MTk3OGY3YjNjNmE3ZDk1ZmE3YTI3OGFlYWIxMmUwNzJjNzQyNjk5Yjg5MGEwMDE3OTI1NGY4ZDk2MGMzNmJmMDBjOTI1NDJiYjM4MmY3OWJiMGQxMzNmNmRiOGE=
       - SPRING_CLOUD_DISCOVERY_CLIENT_SIMPLE_INSTANCES_BLOG_0_URI=http://host.docker.internal:8080
       - LOGGING_FILE_NAME=/tmp/jhipster-control-center.log
+      - JHIPSTER_CORS_ALLOWED_ORIGINS=*
+      - JHIPSTER_CORS_ALLOWED_METHODS=GET,HEAD,POST,PUT,DELETE,PATCH,OPTIONS
+      - JHIPSTER_CORS_ALLOWED_HEADERS=*
+      - JHIPSTER_CORS_ALLOW_CREDENTIALS=false
+      - JHIPSTER_CORS_MAX_AGE=1800
     # If you want to expose these ports outside your dev PC,
     # remove the "127.0.0.1:" prefix
     ports:
       - 127.0.0.1:7419:7419
+    cors:
+      allowed-origins: '*'
+      allowed-methods: '*'
+      allowed-headers: '*'
+      exposed-headers: 'Authorization,Link,X-Total-Count,X-${jhipster.clientApp.name}-alert,X-${jhipster.clientApp.name}-error,X-${jhipster.clientApp.name}-params'
+      allow-credentials: false # Debe ser false cuando se usa "*" como allowed-origin
+      max-age: 1800

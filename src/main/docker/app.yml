@@ -1,5 +1,5 @@
 # This configuration is intended for development purpose, it's **your** responsibility to harden it for production
-name: blog
+version: '3.8'
 services:
   app:
     image: blog
@@ -9,6 +9,21 @@ services:
       - MANAGEMENT_PROMETHEUS_METRICS_EXPORT_ENABLED=true
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgresql:5432/blog
       - SPRING_LIQUIBASE_URL=jdbc:postgresql://postgresql:5432/blog
+      # Configuración para enviar logs a Logstash según la teoría
+      - SPRING_OUTPUT_ANSI_ENABLED=ALWAYS
+      - LOGGING_LEVEL_ROOT=INFO
+      - LOGGING_LEVEL_COM_JHIPSTER_DEMO_BLOG=INFO
+      - LOGGING_LEVEL_COM_JHIPSTER_DEMO_BLOG_WEB_REST=INFO
+      - JHIPSTER_LOGGING_LEVEL_ROOT=INFO
+      - JHIPSTER_LOGGING_LEVEL_COM_JHIPSTER_DEMO_BLOG=INFO
+      - JHIPSTER_LOGGING_LOGSTASH_ENABLED=true
+      - JHIPSTER_LOGGING_LOGSTASH_HOST=logstash
+      - JHIPSTER_LOGGING_LOGSTASH_PORT=5000
+      - JHIPSTER_LOGGING_LOGSTASH_QUEUE_SIZE=512
+      - JHIPSTER_CORS_ALLOWED_ORIGINS=http://localhost:8100,http://localhost:9000,http://localhost:3000
+      - JHIPSTER_CORS_ALLOWED_METHODS=*
+      - JHIPSTER_CORS_ALLOWED_HEADERS=*
+      - JHIPSTER_CORS_ALLOW_CREDENTIALS=true
     ports:
       - 127.0.0.1:8080:8080
     healthcheck:
@@ -23,7 +38,91 @@ services:
     depends_on:
       postgresql:
         condition: service_healthy
+      logstash:
+        condition: service_started
+    logging:
+      driver: 'json-file'
+      options:
+        max-size: '10m'
+        max-file: '3'
+
   postgresql:
     extends:
       file: ./postgresql.yml
       service: postgresql
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.0
+    environment:
+      - discovery.type=single-node
+      - 'ES_JAVA_OPTS=-Xms512m -Xmx512m'
+      - xpack.security.enabled=false
+    ports:
+      - 127.0.0.1:9200:9200
+    volumes:
+      - elasticsearch-data:/usr/share/elasticsearch/data/
+      - ./elasticsearch-config:/usr/share/elasticsearch/config/templates/
+    healthcheck:
+      test: curl -s http://localhost:9200 >/dev/null || exit 1
+      interval: 10s
+      timeout: 10s
+      retries: 5
+
+  logstash:
+    image: docker.elastic.co/logstash/logstash:7.17.0
+    volumes:
+      - ./logstash-config/:/usr/share/logstash/pipeline/
+    environment:
+      - 'LS_JAVA_OPTS=-Xms256m -Xmx256m'
+      - ELASTICSEARCH_HOST=elasticsearch
+      - ELASTICSEARCH_PORT=9200
+    ports:
+      - 127.0.0.1:5000:5000
+      - 127.0.0.1:5044:5044
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.17.0
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+    ports:
+      - 127.0.0.1:5601:5601
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+
+  filebeat:
+    image: docker.elastic.co/beats/filebeat:7.17.0
+    user: root
+    volumes:
+      - ./filebeat-config/filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    depends_on:
+      logstash:
+        condition: service_started
+    command: filebeat -e -strict.perms=false
+
+  jenkins:
+    image: jenkins/jenkins:lts-jdk11
+    ports:
+      - 49001:8080
+      - 50000:50000
+    environment:
+      - APP_HOST=app
+      - APP_PORT=8080
+      - DB_HOST=postgresql
+    volumes:
+      # enable persistent volume (warning: make sure that the local jenkins_home folder is created)
+      - jenkins_home:/var/jenkins_home
+      # Si necesitas docker en docker, descomenta estas líneas
+      #- /var/run/docker.sock:/var/run/docker.sock
+      #- /usr/bin/docker:/usr/bin/docker
+    networks:
+      - default
+
+volumes:
+  elasticsearch-data:
+  jenkins_home:

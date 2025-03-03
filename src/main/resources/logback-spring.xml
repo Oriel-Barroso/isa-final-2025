@@ -58,6 +58,10 @@
     <logger name="io.swagger.v3" level="INFO"/>
     <logger name="sun.rmi" level="WARN"/>
     <logger name="sun.rmi.transport" level="WARN"/>
+    <logger name="com.jhipster.demo.blog.web.rest" level="INFO"/>
+    <logger name="com.jhipster.demo.blog.web.rest.PostResource" level="INFO"/>
+    <logger name="com.jhipster.demo.blog.web.rest.BlogResource" level="INFO"/>
+    <logger name="com.jhipster.demo.blog.web.rest.TagResource" level="INFO"/>
     <!-- See https://github.com/jhipster/generator-jhipster/issues/13835 -->
     <logger name="Validator" level="INFO"/>
     <!-- See https://github.com/jhipster/generator-jhipster/issues/14444 -->
@@ -68,8 +72,20 @@
     <!-- jhipster-needle-logback-add-log - JHipster will add a new log with level -->
 
     <springProperty name="log.level" source="logging.level.root" defaultValue="INFO" />
-    <root level="${log.level}">
+    <springProperty name="logstashHost" source="jhipster.logging.logstash.host" defaultValue="localhost"/>
+    <springProperty name="logstashPort" source="jhipster.logging.logstash.port" defaultValue="5000"/>
+    <springProperty name="logstashQueueSize" source="jhipster.logging.logstash.queue-size" defaultValue="512"/>
+
+    <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+        <destination>${logstashHost}:${logstashPort}</destination>
+        <queueSize>${logstashQueueSize}</queueSize>
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder"/>
+    </appender>
+
+    <root level="INFO">
         <appender-ref ref="CONSOLE" />
+        <appender-ref ref="LOGSTASH"/>
+        <appender-ref ref="FILE"/>
     </root>
 
     <!-- Prevent logback from outputting its own status -->

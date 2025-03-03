@@ -1,0 +1,27 @@
+{
+  "index_patterns": ["logs-*"],
+  "template": {
+    "settings": {
+      "number_of_shards": 1
+    },
+    "mappings": {
+      "properties": {
+        "host": {
+          "type": "object",
+          "properties": {
+            "name": { "type": "keyword" }
+          }
+        },
+        "message": { "type": "text" },
+        "container": {
+          "type": "object",
+          "properties": {
+            "id": { "type": "keyword" },
+            "name": { "type": "keyword" },
+            "labels": { "type": "object" }
+          }
+        }
+      }
+    }
+  }
+}
