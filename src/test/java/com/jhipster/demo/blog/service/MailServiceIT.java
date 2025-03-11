@@ -30,11 +30,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.mail.MailSendException;
 import org.springframework.mail.javamail.JavaMailSender;
-import tech.jhipster.config.JHipsterProperties;
-
 /**
  * Integration tests for {@link MailService}.
  */
+import org.springframework.test.context.ActiveProfiles;
+import tech.jhipster.config.JHipsterProperties;
+
+@ActiveProfiles("testprod")
 @IntegrationTest
 class MailServiceIT {
 

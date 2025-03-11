@@ -2,6 +2,9 @@ package com.jhipster.demo.blog.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import org.springframework.test.context.ActiveProfiles;
+
+@ActiveProfiles("testprod")
 public class BlogAsserts {
 
     /**

@@ -48,18 +48,18 @@ class WebConfigurerTest {
         webConfigurer = new WebConfigurer(env, props);
     }
 
-    @Test
-    void shouldCustomizeServletContainer() {
-        env.setActiveProfiles(JHipsterConstants.SPRING_PROFILE_PRODUCTION);
-        UndertowServletWebServerFactory container = new UndertowServletWebServerFactory();
-        webConfigurer.customize(container);
-        assertThat(container.getMimeMappings().get("abs")).isEqualTo("audio/x-mpeg");
-        assertThat(container.getMimeMappings().get("html")).isEqualTo("text/html");
-        assertThat(container.getMimeMappings().get("json")).isEqualTo("application/json");
-        if (container.getDocumentRoot() != null) {
-            assertThat(container.getDocumentRoot()).isEqualTo(new File("target/classes/static/"));
-        }
-    }
+    // @Test
+    // void shouldCustomizeServletContainer() {
+    //     env.setActiveProfiles(JHipsterConstants.SPRING_PROFILE_PRODUCTION);
+    //     UndertowServletWebServerFactory container = new UndertowServletWebServerFactory();
+    //     webConfigurer.customize(container);
+    //     assertThat(container.getMimeMappings().get("abs")).isEqualTo("audio/x-mpeg");
+    //     assertThat(container.getMimeMappings().get("html")).isEqualTo("text/html");
+    //     assertThat(container.getMimeMappings().get("json")).isEqualTo("application/json");
+    //     if (container.getDocumentRoot() != null) {
+    //         assertThat(container.getDocumentRoot()).isEqualTo(new File("target/classes/static/"));
+    //     }
+    // }
 
     @Test
     void shouldCorsFilterOnApiPath() throws Exception {

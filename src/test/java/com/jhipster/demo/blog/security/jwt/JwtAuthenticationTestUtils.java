@@ -19,8 +19,10 @@ import org.springframework.security.oauth2.jwt.JwtClaimsSet;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
+@ActiveProfiles("testprod")
 public class JwtAuthenticationTestUtils {
 
     public static final String BEARER = "Bearer ";

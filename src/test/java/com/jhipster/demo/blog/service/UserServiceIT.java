@@ -22,12 +22,14 @@ import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.data.auditing.AuditingHandler;
 import org.springframework.data.auditing.DateTimeProvider;
-import org.springframework.transaction.annotation.Transactional;
-import tech.jhipster.security.RandomUtil;
-
 /**
  * Integration tests for {@link UserService}.
  */
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.transaction.annotation.Transactional;
+import tech.jhipster.security.RandomUtil;
+
+@ActiveProfiles("testprod")
 @IntegrationTest
 @Transactional
 class UserServiceIT {

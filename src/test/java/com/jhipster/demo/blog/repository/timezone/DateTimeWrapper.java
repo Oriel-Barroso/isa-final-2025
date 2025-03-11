@@ -4,7 +4,9 @@ import jakarta.persistence.*;
 import java.io.Serializable;
 import java.time.*;
 import java.util.Objects;
+import org.springframework.test.context.ActiveProfiles;
 
+@ActiveProfiles("testprod")
 @Entity
 @Table(name = "jhi_date_time_wrapper")
 public class DateTimeWrapper implements Serializable {

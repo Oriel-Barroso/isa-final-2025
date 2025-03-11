@@ -13,7 +13,9 @@ import org.slf4j.Marker;
 import org.slf4j.MarkerFactory;
 import org.springframework.boot.ansi.AnsiColor;
 import org.springframework.boot.ansi.AnsiElement;
+import org.springframework.test.context.ActiveProfiles;
 
+@ActiveProfiles("testprod")
 class CRLFLogConverterTest {
 
     @Test

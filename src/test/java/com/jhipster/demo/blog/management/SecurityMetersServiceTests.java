@@ -8,7 +8,9 @@ import io.micrometer.core.instrument.simple.SimpleMeterRegistry;
 import java.util.Collection;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.test.context.ActiveProfiles;
 
+@ActiveProfiles("testprod")
 class SecurityMetersServiceTests {
 
     private static final String INVALID_TOKENS_METER_EXPECTED_NAME = "security.authentication.invalid-tokens";

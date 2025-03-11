@@ -3,7 +3,9 @@ package com.jhipster.demo.blog.domain;
 import java.util.Random;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicLong;
+import org.springframework.test.context.ActiveProfiles;
 
+@ActiveProfiles("testprod")
 public class TagTestSamples {
 
     private static final Random random = new Random();

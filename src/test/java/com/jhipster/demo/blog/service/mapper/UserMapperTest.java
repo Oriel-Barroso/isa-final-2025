@@ -15,10 +15,12 @@ import java.util.Set;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 /**
  * Unit tests for {@link UserMapper}.
  */
+import org.springframework.test.context.ActiveProfiles;
+
+@ActiveProfiles("testprod")
 class UserMapperTest {
 
     private static final String DEFAULT_LOGIN = "johndoe";

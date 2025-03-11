@@ -13,10 +13,12 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-
 /**
  * Test class for the {@link SecurityUtils} utility class.
  */
+import org.springframework.test.context.ActiveProfiles;
+
+@ActiveProfiles("testprod")
 class SecurityUtilsUnitTest {
 
     @BeforeEach

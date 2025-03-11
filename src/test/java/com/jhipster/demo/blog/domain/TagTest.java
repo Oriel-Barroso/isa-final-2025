@@ -8,7 +8,9 @@ import com.jhipster.demo.blog.web.rest.TestUtil;
 import java.util.HashSet;
 import java.util.Set;
 import org.junit.jupiter.api.Test;
+import org.springframework.test.context.ActiveProfiles;
 
+@ActiveProfiles("testprod")
 class TagTest {
 
     @Test

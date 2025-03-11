@@ -21,10 +21,9 @@ import org.springframework.cglib.proxy.MethodProxy;
 import org.springframework.format.datetime.standard.DateTimeFormatterRegistrar;
 import org.springframework.format.support.DefaultFormattingConversionService;
 import org.springframework.format.support.FormattingConversionService;
+import org.springframework.test.context.ActiveProfiles;
 
-/**
- * Utility class for testing REST controllers.
- */
+@ActiveProfiles("testprod")
 public final class TestUtil {
 
     /**

@@ -1,7 +1,9 @@
 package com.jhipster.demo.blog.domain;
 
 import java.util.UUID;
+import org.springframework.test.context.ActiveProfiles;
 
+@ActiveProfiles("testprod")
 public class AuthorityTestSamples {
 
     public static Authority getAuthoritySample1() {

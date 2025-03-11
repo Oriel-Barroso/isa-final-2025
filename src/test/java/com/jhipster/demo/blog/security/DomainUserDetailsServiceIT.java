@@ -16,11 +16,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.transaction.annotation.Transactional;
-
 /**
  * Integrations tests for {@link DomainUserDetailsService}.
  */
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.transaction.annotation.Transactional;
+
+@ActiveProfiles("testprod")
 @Transactional
 @IntegrationTest
 class DomainUserDetailsServiceIT {

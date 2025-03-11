@@ -11,14 +11,22 @@
 spring:
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
+    url: jdbc:h2:mem:blog;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;MODE=PostgreSQL
+    username: blog
+    password:
     hikari:
       poolName: Hikari
       auto-commit: false
       maximum-pool-size: 1
+  test:
+    database:
+      replace: NONE
   jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    show-sql: true
     open-in-view: false
     hibernate:
-      ddl-auto: none
+      ddl-auto: create-drop
       naming:
         physical-strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
         implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
