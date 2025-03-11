@@ -110,6 +110,7 @@ services:
     ports:
       - 49001:8080
       - 50000:50000
+
     # environment:
     #   - APP_HOST=app
     #   - APP_PORT=8080
@@ -117,12 +118,11 @@ services:
     #   - JENKINS_OPTS="--prefix=/jenkins"
     #   # Add Cypress cache configuration
     #   - CYPRESS_CACHE_FOLDER=/var/jenkins_home/.cache/Cypress
-    # volumes:
-    #   - jenkins_home:/var/jenkins_home
-    #   - /var/run/docker.sock:/var/run/docker.sock
-    #   - /usr/bin/docker:/usr/bin/docker
+    volumes:
+      #   - jenkins_home:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /usr/bin/docker:/usr/bin/docker
     # user: root # Temporarily switch to root to install dependencies
     # command:
 volumes:
   elasticsearch-data:
-  jenkins_home:
