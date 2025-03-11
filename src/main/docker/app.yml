@@ -115,15 +115,20 @@ services:
       - APP_PORT=8080
       - DB_HOST=postgresql
       - JENKINS_OPTS="--prefix=/jenkins"
+      # Add Cypress cache configuration
+      - CYPRESS_CACHE_FOLDER=/var/jenkins_home/.cache/Cypress
     volumes:
-      # enable persistent volume (warning: make sure that the local jenkins_home folder is created)
       - jenkins_home:/var/jenkins_home
-      # Opcional: variables de entorno
-      # Si necesitas docker en docker, descomenta estas líneas
       - /var/run/docker.sock:/var/run/docker.sock
       - /usr/bin/docker:/usr/bin/docker
-    networks:
-      - default
+    user: root # Temporarily switch to root to install dependencies
+    command: |
+      sh -c '
+        apt-get update && 
+        apt-get install -y libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libnss3 libxss1 libasound2 libxtst6 xauth xvfb && 
+        chown -R jenkins:jenkins /var/jenkins_home && 
+        su jenkins -c "jenkins-agent"
+      '
 
 volumes:
   elasticsearch-data:

@@ -13,6 +13,7 @@ node {
         sh 'chmod +x mvnw'
         sh './mvnw -ntp clean -P-webapp'
     }
+
     stage('nohttp') {
         sh './mvnw -ntp checkstyle:check'
     }
@@ -22,7 +23,19 @@ node {
     }
 
     stage('npm install') {
-        sh './mvnw -ntp com.github.eirslett:frontend-maven-plugin:npm'
+        withEnv([
+            'CYPRESS_CACHE_FOLDER=/var/jenkins_home/.cache/Cypress',
+            'npm_config_cache=/var/jenkins_home/.npm'
+        ]) {
+            // Create cache directories with correct permissions
+            sh '''
+                mkdir -p /var/jenkins_home/.cache/Cypress
+                mkdir -p /var/jenkins_home/.npm
+                chmod -R 777 /var/jenkins_home/.cache
+                chmod -R 777 /var/jenkins_home/.npm
+                ./mvnw -ntp com.github.eirslett:frontend-maven-plugin:npm
+            '''
+        }
     }
 
     stage('packaging') {
@@ -32,8 +45,9 @@ node {
 
     def dockerImage
     stage('publish docker') {
-        withCredentials([usernamePassword(credentialsId: 'dockerhub-login', passwordVariable:
-        'DOCKER_REGISTRY_PWD', usernameVariable: 'DOCKER_REGISTRY_USER')]) {
+        withCredentials([usernamePassword(credentialsId: 'dockerhub-login', 
+            passwordVariable: 'DOCKER_REGISTRY_PWD', 
+            usernameVariable: 'DOCKER_REGISTRY_USER')]) {
             sh './mvnw -ntp jib:build'
         }
     }
