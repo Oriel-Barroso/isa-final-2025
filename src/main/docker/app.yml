@@ -106,7 +106,7 @@ services:
     command: filebeat -e -strict.perms=false
 
   jenkins:
-    image: jenkins/jenkins:lts-jdk11
+    image: jenkins/jenkins:jdk21
     ports:
       - 49001:8080
       - 50000:50000
