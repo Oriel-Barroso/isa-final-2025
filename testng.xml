@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Blog Test Suite">
+    <test name="Blog Tests">
+        <classes>
+            <class name="com.jhipster.demo.blog.web.test_user.BlogTestNGTests"/>
+        </classes>
+    </test>
+</suite>

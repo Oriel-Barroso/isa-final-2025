@@ -7,7 +7,6 @@ describe('Ver Posts', () => {
   before(() => {
     cy.login('admin', 'admin');
 
-    // Crear posts para pruebas mediante API
     cy.authenticatedRequest({
       method: 'POST',
       url: '/api/posts',
@@ -18,7 +17,6 @@ describe('Ver Posts', () => {
       },
     });
 
-    // Crear un segundo post para verificar filtrado
     cy.authenticatedRequest({
       method: 'POST',
       url: '/api/posts',
@@ -34,40 +32,30 @@ describe('Ver Posts', () => {
     cy.login('admin', 'admin');
     cy.visit('/');
 
-    // Navegar a la lista de posts
     cy.get(entityItemSelector).click();
     cy.contains('Post').click();
 
-    // Verificar que la lista tiene al menos 2 posts
     cy.get('tbody tr').should('have.length.at.least', 2);
 
-    // Verificar que nuestro post está en la lista
     cy.contains(uniqueTitle).should('be.visible');
 
-    // Ver detalles del post
     cy.contains('tr', uniqueTitle).find('[data-cy="entityDetailsButton"]').click();
 
-    // CORRECCIÓN: Usar el selector correcto para los detalles del post
-    // Intenta diferentes selectores ya que JHipster puede variar
     cy.contains('dl.jh-entity-details dd', uniqueTitle).should('be.visible');
-    // Alternativamente:
     cy.get('dl.jh-entity-details').within(() => {
       cy.contains(uniqueTitle).should('be.visible');
       cy.contains(uniqueContent).should('be.visible');
     });
 
-    // Volver a la lista
     cy.get('[data-cy="entityDetailsBackButton"]').click();
   });
 
   after(() => {
-    // Limpiar: eliminar los posts creados
     cy.login('admin', 'admin');
     cy.authenticatedRequest({
       method: 'GET',
       url: '/api/posts',
     }).then(response => {
-      // Añadir el tipo explícito al callback y al array
       interface Post {
         id: number;
         title: string;
