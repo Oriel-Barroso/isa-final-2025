@@ -27,11 +27,14 @@ describe('Editar Post', () => {
     cy.get(entityItemSelector).click();
     cy.contains('Post').click();
 
-    // Buscar el post creado y hacer clic en editar
+    // Buscar el post creado
     cy.contains('tr', initialTitle).find('[data-cy="entityEditButton"]').click();
+    // En lugar de wait, usamos cy.intercept o assertions
+    cy.get('#field_title').should('be.visible');
 
-    // Editar el título
-    cy.get('#field_title').clear().type(updatedTitle);
+    // Editar el título (eliminado clear().type() encadenado)
+    cy.get('#field_title').clear();
+    cy.get('#field_title').type(updatedTitle);
 
     // Guardar cambios
     cy.get('[data-cy="entityCreateSaveButton"]').click();

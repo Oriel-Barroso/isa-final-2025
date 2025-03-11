@@ -67,9 +67,14 @@ describe('Ver Posts', () => {
       method: 'GET',
       url: '/api/posts',
     }).then(response => {
-      const postsToDelete = response.body.filter(p => p.title === uniqueTitle || p.title.startsWith('Otro post'));
+      // Añadir el tipo explícito al callback y al array
+      interface Post {
+        id: number;
+        title: string;
+      }
+      const postsToDelete = response.body.filter((p: Post): boolean => p.title === uniqueTitle || p.title.startsWith('Otro post'));
 
-      postsToDelete.forEach(post => {
+      postsToDelete.forEach((post: Post) => {
         cy.authenticatedRequest({
           method: 'DELETE',
           url: `/api/posts/${post.id}`,

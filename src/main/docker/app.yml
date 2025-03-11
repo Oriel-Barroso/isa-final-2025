@@ -114,12 +114,14 @@ services:
       - APP_HOST=app
       - APP_PORT=8080
       - DB_HOST=postgresql
+      - JENKINS_OPTS="--prefix=/jenkins"
     volumes:
       # enable persistent volume (warning: make sure that the local jenkins_home folder is created)
       - jenkins_home:/var/jenkins_home
+      # Opcional: variables de entorno
       # Si necesitas docker en docker, descomenta estas líneas
-      #- /var/run/docker.sock:/var/run/docker.sock
-      #- /usr/bin/docker:/usr/bin/docker
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /usr/bin/docker:/usr/bin/docker
     networks:
       - default
 
