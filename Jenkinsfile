@@ -1,4 +1,8 @@
 node {
+    // Configure Java 21
+    env.JAVA_HOME = tool 'JDK21'
+    env.PATH = "${env.JAVA_HOME}/bin:${env.PATH}"
+
     stage('checkout') {
         checkout scm
     }
@@ -15,7 +19,6 @@ node {
     stage('compile') {
         sh './mvnw -ntp compile -P-webapp'
     }
-
 
     stage('publish docker') {
         withCredentials([usernamePassword(credentialsId: 'dockerhub-login', 
